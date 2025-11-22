@@ -84,13 +84,36 @@ public class MCO2 {
     public boolean isValidId(int id) {
         return id >= 0 && id < numAccounts;
     }
+    
      /**
      * Displays the friend list for a given person ID
+     * 
+     * @param personId the ID of the person whose friend list to display
      */
     public void displayFriendList(int personId) {
-        // case [1]: Get Friend List
+        if (!isValidId(personId)) {
+            System.out.println("Error: Invalid ID! ID must be between 0 and " + (numAccounts - 1));
+            return;
+        }
+        
+        ArrayList<Integer> friends = graph.get(personId);
+        int numFriends = friends.size();
+        
+        System.out.println("Person " + personId + " has " + numFriends + " friends!");
+        
+        if (numFriends > 0) {
+            System.out.print("List of friends: ");
+            for (int i = 0; i < numFriends; i++) {
+                System.out.print(friends.get(i));
+                if (i < numFriends - 1) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        } else {
+            System.out.println("This person has no friends in the network.");
+        }
     }
-
     /**
      * Finds and displays the connection between two people using BFS
      * Returns the shortest path if it exists
@@ -137,8 +160,15 @@ public class MCO2 {
 
             switch (choice) {
                 case "1":
-                    // STILL EMPTY: Feature not yet implemented
-                    System.out.println("Feature [1] coming soon...");
+                    System.out.println("Enter ID of person: ");
+                    try {
+                        int personId = sc.nextInt();
+                        sc.nextLine(); 
+                        displayFriendList(personId);
+                    } catch (InputMismatchException e) {
+                        System.out.println("Error: Please enter a valid integer ID");
+                        sc.nextLine(); 
+                    }
                     break;
                 case "2":
                     System.out.println("Enter ID of first person: ");
@@ -186,3 +216,4 @@ public class MCO2 {
         }
     }
 }
+

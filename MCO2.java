@@ -1,3 +1,6 @@
+
+// javac *.java
+// java MCO2
 import java.io.*;
 import java.util.*;
 
@@ -10,6 +13,7 @@ public class MCO2 {
     public MCO2() {
         graph = new ArrayList<>();
         sc = new Scanner(System.in);
+        numAccounts = 0;
     }
 
     /**
@@ -77,6 +81,9 @@ public class MCO2 {
         }
     }
 
+    public boolean isValidId(int id) {
+        return id >= 0 && id < numAccounts;
+    }
      /**
      * Displays the friend list for a given person ID
      */
@@ -88,8 +95,33 @@ public class MCO2 {
      * Finds and displays the connection between two people using BFS
      * Returns the shortest path if it exists
      */
-    public void displayConnection(int personId) {
+    public List<Integer> displayConnection(int personId1, int personId2) {
         // case [2]: Get Connection
+        if(!isValidId(personId1) || !isValidId(personId2))return null;
+
+        Queue<List<Integer>> queue = new LinkedList<>();
+        Set<Integer> visited = new HashSet<>(); 
+        queue.add(Arrays.asList(personId1));
+        visited.add(personId1);
+
+            while (queue.size() != 0) {
+                 List<Integer> path = queue.poll();
+                 int last = path.getLast();
+
+                 if(last == personId2 ){
+                    return path;
+                 }
+                 
+                for(int neighbor : graph.get(last)){
+                    if(!visited.contains(neighbor)){
+                        visited.add(neighbor);
+                        List<Integer> newPath = new ArrayList<>(path);
+                        newPath.add(neighbor);
+                        queue.add(newPath);
+                    }
+                }
+            }
+        return null;
     }
 
     public void runMainMenu() {
@@ -109,8 +141,26 @@ public class MCO2 {
                     System.out.println("Feature [1] coming soon...");
                     break;
                 case "2":
-                    // STILL EMPTY: Feature not yet implemented
-                    System.out.println("Feature [2] coming soon...");
+                    System.out.println("Enter ID of first person: ");
+                        int person1 = sc.nextInt();
+                        sc.nextLine();
+                    System.out.println("Enter ID of second  person: ");
+                        int person2 = sc.nextInt();
+                        sc.nextLine();
+                    List<Integer> connection = displayConnection(person1, person2);
+
+                    if(!isValidId(person1) || !isValidId(person2)){
+                        System.out.println("No connection found ");
+                    }
+
+                    else if (connection != null && !connection.isEmpty()){
+                        System.out.println("There is a connection from "+ person1 + " to " + person2 + "!");
+                        for(int i = 0 ; i < connection.size() -1; i++){
+                            int from = connection.get(i);
+                            int to = connection.get(i + 1);
+                            System.out.println(from + " is friends with " + to);
+                        }
+                    }
                     break;
                 case "3":
                     running = false;

@@ -2,7 +2,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A social network graph analyzer that manages friendship connections between accounts.
+ * A social network graph analyzer that manages friendship connections between
+ * accounts.
  */
 public class MCO2 {
 
@@ -89,7 +90,8 @@ public class MCO2 {
      * Validates whether a given ID is within the valid range of account IDs.
      * 
      * @param id the account ID to validate
-     * @return true if the ID is valid (between 0 and numAccounts-1), false otherwise
+     * @return true if the ID is valid (between 0 and numAccounts-1), false
+     *         otherwise
      */
     public boolean isValidId(int id) {
         return id >= 0 && id < numAccounts;
@@ -186,7 +188,8 @@ public class MCO2 {
 
     /**
      * Displays and handles the main menu interface for the program.
-     * Provides options to get friend lists, find connections between people, or exit.
+     * Provides options to get friend lists, find connections between people, or
+     * exit.
      * Continues running until the user chooses to exit.
      */
     public void runMainMenu() {
@@ -220,16 +223,29 @@ public class MCO2 {
                     System.out.println("         GET FRIEND LIST");
                     System.out.println("═══════════════════════════════════════");
                     System.out.println();
-                    System.out.print("Enter ID of person: ");
+
                     try {
+                        System.out.print("Enter ID of person: ");
                         int personId = sc.nextInt();
                         sc.nextLine();
                         displayFriendList(personId);
                     } catch (InputMismatchException e) {
+                        clearScreen();
+
+                        System.out.println();
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println("         GET FRIEND LIST");
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println();
                         System.out.println("Error: Please enter a valid integer ID");
-                        sc.nextLine();
+                        System.out.println();
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println("Press Enter to continue...");
+                        sc.nextLine(); // Clear the invalid input
+                        sc.nextLine(); // Wait for user
                     }
                     break;
+
                 case "2":
                     clearScreen();
 
@@ -238,42 +254,54 @@ public class MCO2 {
                     System.out.println("          GET CONNECTION");
                     System.out.println("═══════════════════════════════════════");
                     System.out.println();
-                    System.out.print("Enter ID of first person: ");
-                    int person1 = sc.nextInt();
-                    sc.nextLine();
-                    System.out.println();
-                    System.out.print("Enter ID of second person: ");
-                    int person2 = sc.nextInt();
-                    sc.nextLine();
 
-                    List<Integer> connection = displayConnection(person1, person2);
-
-                    clearScreen();
-
-                    System.out.println();
-                    System.out.println("═══════════════════════════════════════");
-                    System.out.println("          GET CONNECTION");
-                    System.out.println("═══════════════════════════════════════");
-                    System.out.println();
-
-                    if (!isValidId(person1) || !isValidId(person2)) {
-                        System.out.println("No connection found ");
-                    }
-
-                    else if (connection != null && !connection.isEmpty()) {
-                        System.out.println("There is a connection from " + person1 + " to " + person2 + "!");
+                    try {
+                        System.out.print("Enter ID of first person: ");
+                        int person1 = sc.nextInt();
+                        sc.nextLine();
                         System.out.println();
-                        for (int i = 0; i < connection.size() - 1; i++) {
-                            int from = connection.get(i);
-                            int to = connection.get(i + 1);
-                            System.out.println("  " + from + " is friends with " + to);
-                        }
-                    }
+                        System.out.print("Enter ID of second person: ");
+                        int person2 = sc.nextInt();
+                        sc.nextLine();
 
-                    System.out.println();
-                    System.out.println("═══════════════════════════════════════");
-                    System.out.println("Press Enter to continue...");
-                    sc.nextLine();
+                        List<Integer> connection = displayConnection(person1, person2);
+
+                        clearScreen();
+
+                        System.out.println();
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println("          GET CONNECTION");
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println();
+
+                        if (!isValidId(person1) || !isValidId(person2)) {
+                            System.out.println("No connection found ");
+                        } else if (connection != null && !connection.isEmpty()) {
+                            System.out.println("There is a connection from " + person1 + " to " + person2 + "!");
+                            System.out.println();
+                            for (int i = 0; i < connection.size() - 1; i++) {
+                                int from = connection.get(i);
+                                int to = connection.get(i + 1);
+                                System.out.println("  " + from + " is friends with " + to);
+                            }
+                        } else {
+                            System.out.println("No connection found ");
+                        }
+
+                        System.out.println();
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println("Press Enter to continue...");
+                        sc.nextLine();
+
+                    } catch (InputMismatchException e) {
+                        System.out.println();
+                        System.out.println("Error: Please enter a valid integer ID");
+                        System.out.println();
+                        System.out.println("═══════════════════════════════════════");
+                        System.out.println("Press Enter to continue...");
+                        sc.nextLine(); // Clear the invalid input
+                        sc.nextLine(); // Wait for user
+                    }
                     break;
                 case "3":
                     clearScreen();
@@ -287,7 +315,8 @@ public class MCO2 {
 
     /**
      * Main entry point of the program.
-     * Prompts the user for a file path, loads the graph, and launches the main menu if the graph is loaded successfully.
+     * Prompts the user for a file path, loads the graph, and launches the main menu
+     * if the graph is loaded successfully.
      * 
      * @param args command line arguments (not used)
      */

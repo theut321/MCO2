@@ -241,8 +241,8 @@ public class MCO2 {
                         System.out.println();
                         System.out.println("═══════════════════════════════════════");
                         System.out.println("Press Enter to continue...");
-                        sc.nextLine(); // Clear the invalid input
-                        sc.nextLine(); // Wait for user
+                        sc.nextLine(); 
+                        sc.nextLine();
                     }
                     break;
 
@@ -299,8 +299,8 @@ public class MCO2 {
                         System.out.println();
                         System.out.println("═══════════════════════════════════════");
                         System.out.println("Press Enter to continue...");
-                        sc.nextLine(); // Clear the invalid input
-                        sc.nextLine(); // Wait for user
+                        sc.nextLine(); 
+                        sc.nextLine(); 
                     }
                     break;
                 case "3":

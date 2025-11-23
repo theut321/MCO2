@@ -214,6 +214,9 @@ public class MCO2 {
         } else {
             System.out.println("Failed to load graph.");
         }
+            if (sc != null) {
+                sc.close();
+            }
     }
 }
 
